@@ -8,5 +8,6 @@ package("oof")
 
     on_install(function (package)
         os.cp("oof.h", package:installdir("include"))
+        import("package.tools.xmake").install(package)
     end)
 
