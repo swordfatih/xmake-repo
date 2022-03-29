@@ -3,8 +3,8 @@ package("oof")
     set_homepage("https://github.com/s9w/oof")
     set_description("Convenient, high-performance RGB color and position control for console output")
 
-    add_urls("https://github.com/s9w/oof.git")
-    add_versions("c7b7c10", "c7b7c1011c2fc8c4f0dd2d7c40a626e9ce965e33")
+    add_urls("https://github.com/s9w/oof/archive/refs/tags/second.tar.gz")
+    add_versions("2", "a8bf39e9e648ca34a85cd15d2b989d713b657bebc0674bde0c3594863c6da34b")
 
     on_install(function (package)
         os.cp("/", package:installdir("include"))
