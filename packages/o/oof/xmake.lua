@@ -7,6 +7,6 @@ package("oof")
     add_versions("2", "a8bf39e9e648ca34a85cd15d2b989d713b657bebc0674bde0c3594863c6da34b")
 
     on_install(function (package)
-        os.cp("/", package:installdir("include"))
+        os.cp("oof.h", package:installdir("include"))
     end)
 
