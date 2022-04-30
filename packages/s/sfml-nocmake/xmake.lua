@@ -69,16 +69,11 @@ package("sfml-nocmake")
 
                 -- Rules
                 add_rules("mode.debug", "mode.release")
+
+                -- Output
+                set_targetdir("lib")
         ]])
 
         import("package.tools.xmake").install(package, configs)
-    end)
-
-    on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-            void test(int args, char** argv) {
-                sf::Clock c;
-                c.restart();
-            }
-        ]]}, {includes = "SFML/System.hpp"}))
+        os.cp("lib", package:installdir("lib"))
     end)
