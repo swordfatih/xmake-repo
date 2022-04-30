@@ -1,5 +1,5 @@
 package("sfml-nocmake")
-    /* Meta */
+    -- Meta 
     set_homepage("https://www.sfml-dev.org")
     set_description("Simple and Fast Multimedia Library")
 
@@ -7,17 +7,17 @@ package("sfml-nocmake")
     add_urls("https://github.com/SFML/SFML/releases/download/$(version)/SFML-$(version)-sources.zip")
     add_versions("2.5.1", "bf1e0643acb92369b24572b703473af60bac82caf5af61e77c063b779471bb7f")
 
-    /* Modules config */
+    -- Modules config
     add_configs("graphics",   {description = "Use the graphics module", default = true, type = "boolean"})
     add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
     add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
     add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
 
-    /* Dependencies for each modules */
+    -- Dependencies for each modules
     on_load(function (package)
-        /* Package configs */
-        /* package:debug() for debug/release */
-        /* package:config("shared") for shared/static */
+        -- Package configs 
+        -- package:debug() for debug/release
+        -- package:config("shared") for shared/static
         
         if not package:config("shared") then
             package:add("defines", "SFML_STATIC")
@@ -51,7 +51,7 @@ package("sfml-nocmake")
         end
     end)
 
-    /* Install for windows */
+    -- Install for windows
     on_install("windows", function (package)
         os.cp("include/SFML", package:installdir("include/SFML"))
         os.cp("src/SFML", package:installdir("src/SFML"))
