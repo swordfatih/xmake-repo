@@ -64,7 +64,7 @@ package("sfml-nocmake")
 
         os.cp("extlibs/bin/" .. arch, package:installdir("bin"))
 
-        if not package:is_plat("mingw")
+        if not package:is_plat("mingw") then
             os.cp("extlibs/libs-msvc-universal/" .. arch, package:installdir("lib"))
         else
             os.cp("extlibs/libs-mingw/" .. arch, package:installdir("lib"))
