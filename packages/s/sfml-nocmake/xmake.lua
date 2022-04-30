@@ -3,9 +3,8 @@ package("sfml-nocmake")
     set_homepage("https://www.sfml-dev.org")
     set_description("Simple and Fast Multimedia Library")
 
-    set_urls("https://www.sfml-dev.org/files/SFML-$(version)-sources.zip")
-    add_urls("https://github.com/SFML/SFML/releases/download/$(version)/SFML-$(version)-sources.zip")
-    add_versions("2.5.1", "bf1e0643acb92369b24572b703473af60bac82caf5af61e77c063b779471bb7f")
+    add_urls("https://github.com/SFML/SFML.git")
+    add_versions("master", "3ae85854e4674debe3b30ae2f6cf9d9926738789")
 
     on_install(function (package)
         io.writefile("xmake.lua", [[
