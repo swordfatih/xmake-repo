@@ -69,14 +69,10 @@ package("sfml-nocmake")
 
                 -- Rules
                 add_rules("mode.debug", "mode.release")
-
-                -- Output
-                -- set_targetdir("lib")
         ]])
 
         import("package.tools.xmake").install(package, configs)
 
-        -- os.cp("lib", package:installdir("lib"))
-        os.cp("include/SFML", package:installdir("include/SFML"))
-        os.cp("src/SFML", package:installdir("src/SFML"))
+        os.cp("include", package:installdir("include"))
+        os.cp("src", package:installdir("src"))
     end)
