@@ -7,68 +7,72 @@ package("sfml-nocmake")
     add_urls("https://github.com/SFML/SFML/releases/download/$(version)/SFML-$(version)-sources.zip")
     add_versions("2.5.1", "bf1e0643acb92369b24572b703473af60bac82caf5af61e77c063b779471bb7f")
 
-    -- Modules config
-    add_configs("graphics",   {description = "Use the graphics module", default = true, type = "boolean"})
-    add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
-    add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
-    add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
-
-    -- Dependencies for each modules
-    on_load(function (package)
-        -- Package configs 
-        -- package:debug() for debug/release
-        -- package:config("shared") for shared/static
-        
-        if not package:config("shared") then
-            package:add("defines", "SFML_STATIC")
-        end
-
-        if package:config("window") or package:config("graphics") then
-            if package:is_plat("windows", "mingw") then
-                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
+    on_install(function (package)
+        io.writefile("xmake.lua", [[
+            -- Arch
+            local arch = "x64"
+            if is_arch("x86", "i386") then
+                arch = "x86"
             end
 
-            if package:is_plat("linux") then
-                package:add("deps", "libx11", "libxrandr", "freetype", "eudev")
-                package:add("deps", "opengl", "glx", {optional = true})
-            end
-        end
+            target("sfml")
+                -- Meta
+                set_languages("c++17")
+                set_kind("static")
+                
+                -- Defines
+                add_defines("SFML_STATIC")
 
-        if package:config("audio") then
-            if package:is_plat("linux") then
-                package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
-            end
-        end
+                if is_os("windows") then
+                    add_defines("UNICODE")
+                end
+                
+                -- Link libraries
+                add_links("freetype", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                add_linkdirs("extlibs/bin/" .. arch)
 
-        if package:config("network") then
-            if package:is_plat("windows", "mingw") then
-                package:add("syslinks", "ws2_32")
-            end
-        end
+                local plat = "mingw"
+                if is_plat("windows") then
+                    plat = "msvc-universal"
+                elseif is_plat("osx") then
+                    plat = "osx"
+                end
 
-        if package:is_plat("windows", "mingw") then
-            package:add("syslinks", "winmm")
-        end
-    end)
+                add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
 
-    -- Install for windows
-    on_install("windows", function (package)
-        os.cp("include/SFML", package:installdir("include/SFML"))
-        os.cp("src/SFML", package:installdir("src/SFML"))
+                -- Dependencies
+                if is_plat("linux") or is_plat("macosx") then
+                    add_deps("libx11", "libxrandr", "freetype", "eudev", "libogg", "libflac", "libvorbis", "openal-soft")
+                elseif is_os("windows") then
+                    add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
+                end
 
-        local arch = "x64"
+                -- Implementation files
+                if is_os("windows") then
+                    add_files("src/**/Win32/*.cpp")
+                elseif is_os("linux") then
+                    add_files("src/**/Unix/*.cpp")
+                elseif is_os("macosx") then
+                    add_files("src/**/OSX/*.cpp")
+                end
 
-        if is_arch("x86", "i386") then
-            arch = "x86"
-        end
+                -- Include libraries headers
+                add_includedirs("extlibs/headers", "extlibs/headers/AL", "extlibs/headers/freetype2", "extlibs/headers/glad/include", "extlibs/headers/mingw", "extlibs/headers/minimp3", "extlibs/headers/ogg", "extlibs/headers/stb_image", "extlibs/headers/vorbis", "extlibs/headers/vulkan")
+                    
+                -- Source code
+                add_includedirs("include", "src")
 
-        os.cp("extlibs/bin/" .. arch, package:installdir("bin"))
+                add_files("src/SFML/Graphics/*.cpp")
+                add_files("src/SFML/Audio/*.cpp")
+                add_files("src/SFML/Window/*.cpp")
+                add_files("src/SFML/Network/*.cpp")
+                add_files("src/SFML/System/*.cpp")
 
-        if not package:is_plat("mingw") then
-            os.cp("extlibs/libs-msvc-universal/" .. arch, package:installdir("lib"))
-        else
-            os.cp("extlibs/libs-mingw/" .. arch, package:installdir("lib"))
-        end
+                -- Rules
+                add_rules("mode.debug", "mode.release")
+        ]])
+
+        import("package.tools.xmake").install(package, configs)
     end)
 
     on_test(function (package)
