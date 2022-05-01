@@ -13,39 +13,42 @@ package("sfml-nocmake")
     add_defines("SFML_STATIC")
 
     -- Configs
-    option("graphics", true)
-    option("window", true)
-    option("audio", true)
-    option("network", true)
+    add_configs("graphics",   {description = "Use the graphics module", default = true, type = "boolean"})
+    add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
+    add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
+    add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
 
-    -- Dependencies
-    if is_host("linux") then
-        if has_config("graphics") then
-            add_deps("freetype")
+    -- Load
+    on_load(function (package)
+        -- Dependencies
+        if is_host("linux") then
+            if package:get_config("graphics") then
+                package:add("deps", "freetype")
+            end
+
+            if package:get_config("window") or package:get_config("graphics") then
+                package:add("deps", "libxrandr")
+            end 
+
+            if package:get_config("audio") then
+                package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
+            end
+
+            if package:get_config("network") then
+                package:add("deps", "eudev")
+            end
+        elseif is_host("windows") then
+            if package:get_config("window") or package:get_config("graphics") then
+                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
+            end 
+
+            if package:get_config("network") then
+                package:add("syslinks", "ws2_32")
+            end
+
+            package:add("syslinks", "winmm")
         end
-
-        if has_config("window") or has_config("graphics") then
-            add_deps("libx11", "libxrandr")
-        end 
-
-        if has_config("audio") then
-            add_deps("libogg", "libflac", "libvorbis", "openal-soft")
-        end
-
-        if has_config("network") then
-            add_syslinks("eudev")
-        end
-    elseif is_host("windows") then
-        if has_config("window") or has_config("graphics") then
-            add_syslinks("opengl32", "gdi32", "user32", "advapi32")
-        end 
-
-        if has_config("network") then
-            add_syslinks("ws2_32")
-        end
-
-        add_syslinks("winmm")
-    end
+    end)
 
     -- Install
     on_install(function (package)
@@ -158,7 +161,7 @@ package("sfml-nocmake")
         ]]
 
         io.writefile("xmake.lua", xmake_lua);
-        import("package.tools.xmake").install(package, { arch=arch, graphics=has_config("graphics"), window=has_config("window"), network=has_config("network"), audio=has_config("audio")})
+        import("package.tools.xmake").install(package, { arch=arch, graphics=package:config("graphics"), window=package:config("window"), network=package:config("network"), audio=package:config("audio")})
 
         os.cp("include/SFML", package:installdir("include"))
     end)
