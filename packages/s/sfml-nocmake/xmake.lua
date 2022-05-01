@@ -35,14 +35,12 @@ package("sfml-nocmake")
                 local plat = "mingw"
                 if is_plat("windows") then
                     plat = "msvc-universal"
-                elseif is_plat("osx") then
-                    plat = "osx"
                 end
 
                 add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
 
                 -- Dependencies
-                if is_plat("linux") or is_plat("macosx") then
+                if is_plat("linux") then
                     add_deps("libx11", "libxrandr", "freetype", "eudev", "libogg", "libflac", "libvorbis", "openal-soft")
                 elseif is_os("windows") then
                     add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
@@ -54,21 +52,24 @@ package("sfml-nocmake")
                 -- Source code
                 add_includedirs("include", "src")
 
-                add_files("src/SFML/Graphics/*.cpp")
-                add_files("src/SFML/Audio/*.cpp")
-                add_files("src/SFML/Window/*.cpp")
-                add_files("src/SFML/Network/*.cpp")
-                add_files("src/SFML/System/*.cpp")
-
                 -- Implementation files
-                if is_os("windows") then
-                    add_files("src/**/Win32/*.cpp")
-                elseif is_os("linux") then
-                    add_files("src/**/Unix/*.cpp")
-                elseif is_os("macosx") then
-                    add_files("src/**/OSX/*.cpp")
+                local os = "Win32"
+                if is_os("linux") then
+                    os = "Unix"
                 end
 
+                add_files("src/SFML/Graphics/*.cpp")
+                add_files("src/SFML/Audio/*.cpp")
+
+                add_files("src/SFML/Window/" .. os .. "/*.cpp")
+                add_files("src/SFML/Window/*.cpp")
+
+                add_files("src/SFML/Network/" .. os .. "/*.cpp")
+                add_files("src/SFML/Network/*.cpp")
+                
+                add_files("src/SFML/System/" .. os .. "/*.cpp")
+                add_files("src/SFML/System/*.cpp")
+                
                 -- Rules
                 add_rules("mode.debug", "mode.release")
         ]])
