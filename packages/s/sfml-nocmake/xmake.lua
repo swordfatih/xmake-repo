@@ -5,6 +5,7 @@ package("sfml-nocmake")
 
     add_urls("https://github.com/SFML/SFML.git")
     add_versions("master", "3ae85854e4674debe3b30ae2f6cf9d9926738789")
+    add_defines("SFML_STATIC")
 
     on_install(function (package)
         io.writefile("xmake.lua", [[
@@ -74,5 +75,4 @@ package("sfml-nocmake")
         import("package.tools.xmake").install(package, configs)
 
         os.cp("include/SFML", package:installdir("include"))
-        os.cp("src/SFML", package:installdir("src"))
     end)
