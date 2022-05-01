@@ -5,8 +5,12 @@ package("sfml-nocmake")
 
     add_urls("https://github.com/SFML/SFML.git")
     
+    -- Versions
     add_versions("master", "3ae833cb8f439177208ad9bd8dbcb6b7a4bd3f3e384d5854e4674debe3b30ae2f6cf9d9926738789")
     add_versions("2.6.0", "33cb8f439177208ad9bd8dbcb6b7a4bd3f3e384d")
+
+    -- Defines
+    add_defines("SFML_STATIC")
 
     -- Dependencies
     if is_host("linux") then
@@ -15,6 +19,7 @@ package("sfml-nocmake")
         add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
     end
 
+    -- Install
     on_install(function (package)
         io.writefile("xmake.lua", [[
             -- Arch
