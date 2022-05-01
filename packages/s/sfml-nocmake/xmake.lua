@@ -48,6 +48,16 @@ package("sfml-nocmake")
 
             package:add("syslinks", "winmm")
         end
+
+        -- Link libraries
+        if has_config("graphics") then
+            add_links("freetype")
+        end
+        
+        if has_config("audio") then 
+            add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+            add_linkdirs("extlibs/bin/" .. arch)
+        end
     end)
 
     -- Install
@@ -132,17 +142,17 @@ package("sfml-nocmake")
                 add_includedirs("include", "src")
             
                 -- Implementation files
-                local os = "Win32"
+                local host = "Win32"
                 if is_host("linux") then
-                    os = "Unix"
+                    host = "Unix"
                 end
             
                 -- Source code
-                add_files("src/SFML/System/" .. os .. "/*.cpp")
+                add_files("src/SFML/System/" .. host .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
             
                 if has_config("network") then
-                    add_files("src/SFML/Network/" .. os .. "/*.cpp")
+                    add_files("src/SFML/Network/" .. host .. "/*.cpp")
                     add_files("src/SFML/Network/*.cpp")
                 end
             
@@ -151,7 +161,7 @@ package("sfml-nocmake")
                 end
             
                 if has_config("window") or has_config("graphics") then
-                    add_files("src/SFML/Window/" .. os .. "/*.cpp")
+                    add_files("src/SFML/Window/" .. host .. "/*.cpp")
                     add_files("src/SFML/Window/*.cpp")
                 end
 
@@ -160,8 +170,23 @@ package("sfml-nocmake")
                 end
         ]]
 
+        -- Build SFML
         io.writefile("xmake.lua", xmake_lua);
         import("package.tools.xmake").install(package, { arch=arch, graphics=package:config("graphics"), window=package:config("window"), network=package:config("network"), audio=package:config("audio")})
 
+        -- Copy SFML include directory
         os.cp("include/SFML", package:installdir("include"))
+
+        -- Copy external libraries
+        local plat = "mingw"
+        if is_plat("windows") then
+            plat = "msvc-universal"
+        end
+
+        local arch = "x64"
+        if is_arch("x86", "i386") then
+            arch = "x86"
+        end
+
+        os.cp("extlibs/libs-" .. plat .. "/" .. arch, package:installdir("lib"))
     end)
