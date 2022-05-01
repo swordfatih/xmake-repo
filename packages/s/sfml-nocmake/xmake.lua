@@ -26,7 +26,7 @@ package("sfml-nocmake")
     -- Load
     on_load(function (package)
         -- Linking
-        package:add("links", "sfml")
+        -- package:add("links", "sfml")
 
         -- Dependencies
         if is_host("linux") then
