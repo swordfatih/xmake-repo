@@ -4,7 +4,7 @@ package("sfml-nocmake")
     set_description("Simple and Fast Multimedia Library")
 
     add_urls("https://github.com/SFML/SFML.git")
-    add_versions("master", "3ae85854e4674debe3b30ae2f6cf9d9926738789")
+    add_versions("2.6.0", "33cb8f439177208ad9bd8dbcb6b7a4bd3f3e384d")
 
     on_install(function (package)
         io.writefile("xmake.lua", [[
