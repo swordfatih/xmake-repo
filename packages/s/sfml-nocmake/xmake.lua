@@ -28,10 +28,10 @@ package("sfml-nocmake")
     -- Install
     on_install(function (package)
         local xmake_lua = [[
-            option("graphics", {default = true})
-            option("window", {default = true})
-            option("audio", {default = true})
-            option("network", {default = true})
+            option("graphics", {default = true, showmenu = true})
+            option("window", {default = true, showmenu = true})
+            option("audio", {default = true, showmenu = true})
+            option("network", {default = true, showmenu = true})
 
             -- Architecture
             local arch = "x64"
