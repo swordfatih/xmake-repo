@@ -6,8 +6,6 @@ package("sfml-nocmake")
     add_urls("https://github.com/SFML/SFML.git")
     add_versions("master", "3ae85854e4674debe3b30ae2f6cf9d9926738789")
 
-    add_includedirs("include", "src")
-
     on_install(function (package)
         io.writefile("xmake.lua", [[
             -- Arch
@@ -42,7 +40,9 @@ package("sfml-nocmake")
                 -- Dependencies
                 if is_plat("linux") then
                     add_deps("libx11", "libxrandr", "freetype", "eudev", "libogg", "libflac", "libvorbis", "openal-soft")
-                elseif is_os("windows") then
+                end
+                
+                if is_os("windows") then
                     add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
                 end
 
@@ -58,17 +58,19 @@ package("sfml-nocmake")
                     os = "Unix"
                 end
 
-                add_files("src/SFML/Graphics/*.cpp")
+                -- Source code
+                add_files("src/SFML/System/" .. os .. "/*.cpp")
+                add_files("src/SFML/System/*.cpp")
+
+                add_files("src/SFML/Network/" .. os .. "/*.cpp")
+                add_files("src/SFML/Network/*.cpp")
+
                 add_files("src/SFML/Audio/*.cpp")
 
                 add_files("src/SFML/Window/" .. os .. "/*.cpp")
                 add_files("src/SFML/Window/*.cpp")
 
-                add_files("src/SFML/Network/" .. os .. "/*.cpp")
-                add_files("src/SFML/Network/*.cpp")
-                
-                add_files("src/SFML/System/" .. os .. "/*.cpp")
-                add_files("src/SFML/System/*.cpp")
+                add_files("src/SFML/Graphics/*.cpp")
                 
                 -- Rules
                 add_rules("mode.debug", "mode.release")
