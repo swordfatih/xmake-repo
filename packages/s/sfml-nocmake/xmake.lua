@@ -74,4 +74,5 @@ package("sfml-nocmake")
         import("package.tools.xmake").install(package, configs)
 
         os.cp("include/SFML", package:installdir("include"))
+        os.cp("src/SFML", package:installdir("src"))
     end)
