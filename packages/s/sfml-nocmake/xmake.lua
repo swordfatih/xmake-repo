@@ -26,7 +26,7 @@ package("sfml-nocmake")
     -- Load
     on_load(function (package)
         -- Linking
-        -- package:add("links", "sfml")
+        package:add("links", "sfml")
 
         -- Dependencies
         if is_host("linux") then
@@ -183,4 +183,12 @@ package("sfml-nocmake")
 
         -- Copy SFML include directory
         os.cp("include/SFML", package:installdir("include"))
+
+        -- Copy external libraries
+        local plat = "mingw"
+        if is_plat("windows") then
+            plat = "msvc-universal"
+        end
+
+        os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
     end)
