@@ -189,4 +189,6 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
+        os.cp("extlibs/headers", package:installdir("extlibs"))
+        package:add("includedirs", "extlibs/headers", "extlibs/headers/AL", "extlibs/headers/freetype2", "extlibs/headers/glad/include", "extlibs/headers/mingw", "extlibs/headers/minimp3", "extlibs/headers/ogg", "extlibs/headers/stb_image", "extlibs/headers/vorbis", "extlibs/headers/vulkan")
     end)
