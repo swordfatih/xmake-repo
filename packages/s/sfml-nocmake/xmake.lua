@@ -47,9 +47,9 @@ package("sfml-nocmake")
                 end
 
                 -- Implementation files
-                if is_os("windows") then
+                -- if is_os("windows") then
                     add_files("src/**/Win32/*.cpp")
-                elseif is_os("linux") then
+                if is_os("linux") then
                     add_files("src/**/Unix/*.cpp")
                 elseif is_os("macosx") then
                     add_files("src/**/OSX/*.cpp")
