@@ -12,6 +12,12 @@ package("sfml-nocmake")
     -- Defines
     add_defines("SFML_STATIC")
 
+    -- Configs
+    add_configs("graphics",   {description = "Use the graphics module", default = true, type = "boolean"})
+    add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
+    add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
+    add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
+
     -- Dependencies
     if is_host("linux") then
         add_deps("libx11", "libxrandr", "freetype", "eudev", "libogg", "libflac", "libvorbis", "openal-soft")
@@ -19,15 +25,21 @@ package("sfml-nocmake")
         add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
     end
 
+    -- Architecture
+    local arch = "x64"
+    if is_arch("x86", "i386") then
+        arch = "x86"
+    end
+
     -- Install
     on_install(function (package)
-        io.writefile("xmake.lua", [[
-            -- Arch
-            local arch = "x64"
-            if is_arch("x86", "i386") then
-                arch = "x86"
-            end
-            
+        local xmake_lua = format([[
+            local arch = "%s"
+            local graphics = "%s" == "true"
+            local window = "%s" == "true"
+            local audio = "%s" == "true"
+            local network = "%s" == "true"
+
             target("sfml")
                 -- Meta
                 set_languages("c++17")
@@ -44,8 +56,14 @@ package("sfml-nocmake")
                 end
                 
                 -- Link libraries
-                add_links("freetype", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                add_linkdirs("extlibs/bin/" .. arch)
+                if graphics then
+                    add_links("freetype")
+                end
+                
+                if audio then 
+                    add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                    add_linkdirs("extlibs/bin/" .. arch)
+                end
             
                 local plat = "mingw"
                 if is_plat("windows") then
@@ -77,17 +95,26 @@ package("sfml-nocmake")
                 add_files("src/SFML/System/" .. os .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
             
-                add_files("src/SFML/Network/" .. os .. "/*.cpp")
-                add_files("src/SFML/Network/*.cpp")
+                if network then
+                    add_files("src/SFML/Network/" .. os .. "/*.cpp")
+                    add_files("src/SFML/Network/*.cpp")
+                end
             
-                add_files("src/SFML/Audio/*.cpp") 
+                if audio then
+                    add_files("src/SFML/Audio/*.cpp") 
+                end
             
-                add_files("src/SFML/Window/" .. os .. "/*.cpp")
-                add_files("src/SFML/Window/*.cpp")
-            
-                add_files("src/SFML/Graphics/*.cpp")
-        ]])
+                if window or graphics then
+                    add_files("src/SFML/Window/" .. os .. "/*.cpp")
+                    add_files("src/SFML/Window/*.cpp")
+                end
 
+                if graphics then
+                    add_files("src/SFML/Graphics/*.cpp")
+                end
+        ]], arch)
+
+        io.writefile("xmake.lua", xmake_lua);
         import("package.tools.xmake").install(package, configs)
 
         os.cp("include/SFML", package:installdir("include"))
