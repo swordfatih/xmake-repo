@@ -83,12 +83,3 @@ package("sfml-nocmake")
         os.cp("include/SFML", package:installdir("include"))
         os.cp("src/SFML", package:installdir("src"))
     end)
-
-    on_test(function (package)
-        assert(package:check_cxxsnippets({test = [[
-            void test(int args, char** argv) {
-                sf::Clock c;
-                c.restart();
-            }
-        ]]}, {includes = "SFML/System.hpp"}))
-    end)
