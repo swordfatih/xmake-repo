@@ -112,7 +112,7 @@ package("sfml-nocmake")
                 if graphics then
                     add_files("src/SFML/Graphics/*.cpp")
                 end
-        ]], arch, tostring(graphics), tostring(window), tostring(audio), tostring(network))
+        ]], arch, package:config("graphics"), package:config("window"), package:config("audio"), package:config("network"))
 
         io.writefile("xmake.lua", xmake_lua);
         import("package.tools.xmake").install(package, configs)
