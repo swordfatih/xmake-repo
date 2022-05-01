@@ -188,5 +188,5 @@ package("sfml-nocmake")
             arch = "x86"
         end
 
-        os.cp("extlibs/libs-" .. plat .. "/" .. arch, package:installdir("lib"))
+        os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
     end)
