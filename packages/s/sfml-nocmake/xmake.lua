@@ -73,9 +73,31 @@ package("sfml-nocmake")
             
                 -- Dependencies
                 if is_host("linux") then
-                    add_deps("libx11", "libxrandr", "freetype", "eudev", "libogg", "libflac", "libvorbis", "openal-soft")
+                    if has_config("graphics") then
+                        add_deps("freetype")
+                    end
+
+                    if has_config("window") or has_config("graphics") then
+                        add_deps("libx11", "libxrandr")
+                    end 
+
+                    if has_config("audio") then
+                        add_deps("libogg", "libflac", "libvorbis", "openal-soft")
+                    end
+
+                    if has_config("network") then
+                        add_syslinks("eudev")
+                    end
                 elseif is_host("windows") then
-                    add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
+                    if has_config("window") or has_config("graphics") then
+                        add_syslinks("opengl32", "gdi32", "user32", "advapi32")
+                    end 
+
+                    if has_config("network") then
+                        add_syslinks("ws2_32")
+                    end
+
+                    add_syslinks("winmm")
                 end
             
                 -- Include libraries headers
