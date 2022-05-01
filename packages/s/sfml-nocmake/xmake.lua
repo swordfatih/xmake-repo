@@ -20,6 +20,9 @@ package("sfml-nocmake")
                 -- Meta
                 set_languages("c++17")
                 set_kind("static")
+
+                -- Rules
+                add_rules("mode.debug", "mode.release")
                 
                 -- Defines
                 add_defines("SFML_STATIC")
@@ -67,15 +70,12 @@ package("sfml-nocmake")
                 add_files("src/SFML/Network/" .. os .. "/*.cpp")
                 add_files("src/SFML/Network/*.cpp")
 
-                add_files("src/SFML/Audio/*.cpp")
+                add_files("src/SFML/Audio/*.cpp") 
 
                 add_files("src/SFML/Window/" .. os .. "/*.cpp")
                 add_files("src/SFML/Window/*.cpp")
 
                 add_files("src/SFML/Graphics/*.cpp")
-                
-                -- Rules
-                add_rules("mode.debug", "mode.release")
         ]])
 
         import("package.tools.xmake").install(package, configs)
