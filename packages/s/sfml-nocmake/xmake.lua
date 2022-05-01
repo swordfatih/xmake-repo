@@ -110,7 +110,7 @@ package("sfml-nocmake")
 
         io.writefile("xmake.lua", xmake_lua);
 
-        import("package.tools.xmake").install(package, package:configs())
+        import("package.tools.xmake").install(package, {configs = package:configs()})
 
         os.cp("include/SFML", package:installdir("include"))
     end)
