@@ -48,7 +48,7 @@ package("sfml-nocmake")
                 package:add("links", "freetype")
             end
 
-            if package:config("window") or  then
+            if package:config("window") or package:config("graphics") then
                 package:add("syslinks", "opengl32", "winmm", "gdi32", "user32", "advapi32")
             end 
 
