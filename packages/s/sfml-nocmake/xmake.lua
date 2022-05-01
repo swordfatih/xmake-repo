@@ -25,20 +25,19 @@ package("sfml-nocmake")
         add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
     end
 
-    -- Architecture
-    local arch = "x64"
-    if is_arch("x86", "i386") then
-        arch = "x86"
-    end
-
     -- Install
     on_install(function (package)
         local xmake_lua = [[
-            option("arch", {default = true})
             option("graphics", {default = true})
             option("window", {default = true})
             option("audio", {default = true})
             option("network", {default = true})
+
+            -- Architecture
+            local arch = "x64"
+            if is_arch("x86", "i386") then
+                arch = "x86"
+            end
 
             target("sfml")
                 -- Meta
@@ -56,13 +55,13 @@ package("sfml-nocmake")
                 end
                 
                 -- Link libraries
-                if get_config("graphics") then
+                if has_config("graphics") then
                     add_links("freetype")
                 end
                 
-                if get_config("audio") then 
+                if has_config("audio") then 
                     add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                    add_linkdirs("extlibs/bin/" .. get_config("arch"))
+                    add_linkdirs("extlibs/bin/" .. arch)
                 end
             
                 local plat = "mingw"
@@ -70,7 +69,7 @@ package("sfml-nocmake")
                     plat = "msvc-universal"
                 end
             
-                add_linkdirs("extlibs/libs-" .. plat .. "/" .. get_config("arch"))
+                add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
             
                 -- Dependencies
                 if is_host("linux") then
@@ -95,21 +94,21 @@ package("sfml-nocmake")
                 add_files("src/SFML/System/" .. os .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
             
-                if get_config("network") then
+                if has_config("network") then
                     add_files("src/SFML/Network/" .. os .. "/*.cpp")
                     add_files("src/SFML/Network/*.cpp")
                 end
             
-                if get_config("audio") then
+                if has_config("audio") then
                     add_files("src/SFML/Audio/*.cpp") 
                 end
             
-                if get_config("window") or get_config("graphics") then
+                if has_config("window") or has_config("graphics") then
                     add_files("src/SFML/Window/" .. os .. "/*.cpp")
                     add_files("src/SFML/Window/*.cpp")
                 end
 
-                if get_config("graphics") then
+                if has_config("graphics") then
                     add_files("src/SFML/Graphics/*.cpp")
                 end
         ]]
