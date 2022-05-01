@@ -19,7 +19,7 @@ package("sfml-nocmake")
     add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
 
     -- Load
-    on_install(function (package)
+    on_load(function (package)
         -- Dependencies
         if is_host("linux") then
             if package:get_config("graphics") then
