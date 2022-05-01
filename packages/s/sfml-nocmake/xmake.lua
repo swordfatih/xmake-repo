@@ -1,3 +1,8 @@
+local arch = "x64"
+if is_arch("x86", "i386") then
+    arch = "x86"
+end
+
 package("sfml-nocmake")
     -- Meta 
     set_homepage("https://www.sfml-dev.org")
@@ -181,11 +186,6 @@ package("sfml-nocmake")
         local plat = "mingw"
         if is_plat("windows") then
             plat = "msvc-universal"
-        end
-
-        local arch = "x64"
-        if is_arch("x86", "i386") then
-            arch = "x86"
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
