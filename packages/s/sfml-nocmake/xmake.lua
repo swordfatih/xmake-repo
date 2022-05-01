@@ -6,6 +6,8 @@ package("sfml-nocmake")
     add_urls("https://github.com/SFML/SFML.git")
     add_versions("master", "3ae85854e4674debe3b30ae2f6cf9d9926738789")
 
+    add_includedirs("include", "src")
+
     on_install(function (package)
         io.writefile("xmake.lua", [[
             -- Arch
@@ -87,4 +89,13 @@ package("sfml-nocmake")
 
         os.cp("include/SFML", package:installdir("include"))
         os.cp("src/SFML", package:installdir("src"))
+    end)
+
+    on_test(function (package)
+        assert(package:check_cxxsnippets({test = [[
+            void test(int args, char** argv) {
+                sf::Clock c;
+                c.restart();
+            }
+        ]]}, {includes = "SFML/System.hpp"}))
     end)
