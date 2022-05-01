@@ -22,27 +22,27 @@ package("sfml-nocmake")
     on_load(function (package)
         -- Dependencies
         if is_host("linux") then
-            if package:get_config("graphics") then
+            if package:config("graphics") then
                 package:add("deps", "freetype")
             end
 
-            if package:get_config("window") or package:get_config("graphics") then
+            if package:config("window") or package:config("graphics") then
                 package:add("deps", "libxrandr")
             end 
 
-            if package:get_config("audio") then
+            if package:config("audio") then
                 package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
             end
 
-            if package:get_config("network") then
+            if package:config("network") then
                 package:add("deps", "eudev")
             end
         elseif is_host("windows") then
-            if package:get_config("window") or package:get_config("graphics") then
+            if package:config("window") or package:config("graphics") then
                 package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
             end 
 
-            if package:get_config("network") then
+            if package:config("network") then
                 package:add("syslinks", "ws2_32")
             end
 
