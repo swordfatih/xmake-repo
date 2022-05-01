@@ -34,6 +34,12 @@ package("sfml-nocmake")
     -- Install
     on_install(function (package)
         local xmake_lua = format([[
+            local arch = "%s"
+            local graphics = "%s" == "true"
+            local window = "%s" == "true"
+            local audio = "%s" == "true"
+            local network = "%s" == "true"
+
             target("sfml")
                 -- Meta
                 set_languages("c++17")
@@ -50,13 +56,13 @@ package("sfml-nocmake")
                 end
                 
                 -- Link libraries
-                if get_config("graphics") then
+                if graphics then
                     add_links("freetype")
                 end
                 
-                if get_config("audio") then 
+                if audio then 
                     add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                    add_linkdirs("extlibs/bin/" .. get_config("arch"))
+                    add_linkdirs("extlibs/bin/" .. arch)
                 end
             
                 local plat = "mingw"
@@ -64,7 +70,7 @@ package("sfml-nocmake")
                     plat = "msvc-universal"
                 end
             
-                add_linkdirs("extlibs/libs-" .. plat .. "/" .. get_config("arch"))
+                add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
             
                 -- Dependencies
                 if is_host("linux") then
@@ -89,28 +95,27 @@ package("sfml-nocmake")
                 add_files("src/SFML/System/" .. os .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
             
-                if get_config("network") then
+                if network then
                     add_files("src/SFML/Network/" .. os .. "/*.cpp")
                     add_files("src/SFML/Network/*.cpp")
                 end
             
-                if get_config("audio") then
+                if audio then
                     add_files("src/SFML/Audio/*.cpp") 
                 end
             
-                if get_config("window") or get_config("graphics") then
+                if window or graphics then
                     add_files("src/SFML/Window/" .. os .. "/*.cpp")
                     add_files("src/SFML/Window/*.cpp")
                 end
 
-                if get_config("graphics") then
+                if graphics then
                     add_files("src/SFML/Graphics/*.cpp")
                 end
-        ]], arch)
+        ]], arch, package:config("graphics"), package:config("window"), package:config("audio"), package:config("network"))
 
         io.writefile("xmake.lua", xmake_lua);
-
-        import("package.tools.xmake").install(package, {configs = package:configs()})
+        import("package.tools.xmake").install(package, configs)
 
         os.cp("include/SFML", package:installdir("include"))
     end)
