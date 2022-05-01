@@ -18,37 +18,37 @@ package("sfml-nocmake")
     add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
     add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
 
-    -- Dependencies
-    if is_host("linux") then
-        if config("graphics") then
-            add_deps("freetype")
-        end
-
-        if config("window") or config("graphics") then
-            add_deps("libx11", "libxrandr")
-        end 
-
-        if config("audio") then
-            add_deps("libogg", "libflac", "libvorbis", "openal-soft")
-        end
-
-        if config("network") then
-            add_syslinks("eudev")
-        end
-    elseif is_host("windows") then
-        if config("window") or config("graphics") then
-            add_syslinks("opengl32", "gdi32", "user32", "advapi32")
-        end 
-
-        if config("network") then
-            add_syslinks("ws2_32")
-        end
-
-        add_syslinks("winmm")
-    end
-
     -- Install
     on_install(function (package)
+        -- Dependencies
+        if is_host("linux") then
+            if package:config("graphics") then
+                add_deps("freetype")
+            end
+
+            if package:config("window") or package:config("graphics") then
+                add_deps("libx11", "libxrandr")
+            end 
+
+            if package:config("audio") then
+                add_deps("libogg", "libflac", "libvorbis", "openal-soft")
+            end
+
+            if package:config("network") then
+                add_syslinks("eudev")
+            end
+        elseif is_host("windows") then
+            if package:config("window") or package:config("graphics") then
+                add_syslinks("opengl32", "gdi32", "user32", "advapi32")
+            end 
+
+            if package:config("network") then
+                add_syslinks("ws2_32")
+            end
+
+            add_syslinks("winmm")
+        end
+
         local xmake_lua = [[
             option("graphics", {default = true, showmenu = true})
             option("window", {default = true, showmenu = true})
