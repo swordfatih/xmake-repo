@@ -44,12 +44,11 @@ package("sfml-nocmake")
             end
         elseif is_host("windows") then
             if package:config("graphics") then
-                package:add("syslinks", "opengl32")
                 package:add("links", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
-                package:add("syslinks", "opengl32", "winmm", "gdi32", "user32", "advapi32")
+                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
             end 
 
             if package:config("audio") then 
