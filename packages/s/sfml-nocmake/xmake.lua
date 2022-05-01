@@ -48,18 +48,6 @@ package("sfml-nocmake")
                     add_syslinks("opengl32", "gdi32", "user32", "advapi32", "ws2_32", "winmm")
                 end
 
-                -- Implementation files
-                if is_os("windows") then
-                    add_files("src/**/Win32/*.cpp")
-                    add_files("src/**/Win32/*.hpp")
-                elseif is_os("linux") then
-                    add_files("src/**/Unix/*.cpp")
-                    add_files("src/**/Unix/*.hpp")
-                elseif is_os("macosx") then
-                    add_files("src/**/OSX/*.cpp")
-                    add_files("src/**/OSX/*.hpp")
-                end
-
                 -- Include libraries headers
                 add_includedirs("extlibs/headers", "extlibs/headers/AL", "extlibs/headers/freetype2", "extlibs/headers/glad/include", "extlibs/headers/mingw", "extlibs/headers/minimp3", "extlibs/headers/ogg", "extlibs/headers/stb_image", "extlibs/headers/vorbis", "extlibs/headers/vulkan")
                     
@@ -67,19 +55,19 @@ package("sfml-nocmake")
                 add_includedirs("include", "src")
 
                 add_files("src/SFML/Graphics/*.cpp")
-                add_files("src/SFML/Graphics/*.hpp")
-
                 add_files("src/SFML/Audio/*.cpp")
-                add_files("src/SFML/Audio/*.hpp")
-
                 add_files("src/SFML/Window/*.cpp")
-                add_files("src/SFML/Window/*.hpp")
-
                 add_files("src/SFML/Network/*.cpp")
-                add_files("src/SFML/Network/*.hpp")
-                
                 add_files("src/SFML/System/*.cpp")
-                add_files("src/SFML/System/*.hpp")
+
+                -- Implementation files
+                if is_os("windows") then
+                    add_files("src/**/Win32/*.cpp")
+                elseif is_os("linux") then
+                    add_files("src/**/Unix/*.cpp")
+                elseif is_os("macosx") then
+                    add_files("src/**/OSX/*.cpp")
+                end
 
                 -- Rules
                 add_rules("mode.debug", "mode.release")
