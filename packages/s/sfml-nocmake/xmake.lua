@@ -60,6 +60,8 @@ package("sfml-nocmake")
                     os = "Unix"
                 end
 
+                print("Detected OS is ", os)
+
                 -- Source code
                 add_files("src/SFML/System/" .. os .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
