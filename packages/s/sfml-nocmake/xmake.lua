@@ -13,10 +13,10 @@ package("sfml-nocmake")
     add_defines("SFML_STATIC")
 
     -- Configs
-    option("graphics", {default = true, showmenu = true})
-    option("window", {default = true, showmenu = true})
-    option("audio", {default = true, showmenu = true})
-    option("network", {default = true, showmenu = true})
+    option("graphics", {default = true)
+    option("window", {default = true)
+    option("audio", {default = true)
+    option("network", {default = true)
 
     -- Dependencies
     if is_host("linux") then
