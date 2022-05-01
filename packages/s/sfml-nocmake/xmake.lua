@@ -50,13 +50,13 @@ package("sfml-nocmake")
                 end
                 
                 -- Link libraries
-                if $(graphics) then
+                if get_config("graphics") then
                     add_links("freetype")
                 end
                 
-                if $(audio) then 
+                if get_config("audio") then 
                     add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                    add_linkdirs("extlibs/bin/" .. $(arch))
+                    add_linkdirs("extlibs/bin/" .. get_config("arch"))
                 end
             
                 local plat = "mingw"
@@ -64,7 +64,7 @@ package("sfml-nocmake")
                     plat = "msvc-universal"
                 end
             
-                add_linkdirs("extlibs/libs-" .. plat .. "/" .. $(arch))
+                add_linkdirs("extlibs/libs-" .. plat .. "/" .. get_config("arch"))
             
                 -- Dependencies
                 if is_host("linux") then
@@ -89,21 +89,21 @@ package("sfml-nocmake")
                 add_files("src/SFML/System/" .. os .. "/*.cpp")
                 add_files("src/SFML/System/*.cpp")
             
-                if $(network) then
+                if get_config("network") then
                     add_files("src/SFML/Network/" .. os .. "/*.cpp")
                     add_files("src/SFML/Network/*.cpp")
                 end
             
-                if $(audio) then
+                if get_config("audio") then
                     add_files("src/SFML/Audio/*.cpp") 
                 end
             
-                if $(window) or $(graphics) then
+                if get_config("window") or get_config("graphics") then
                     add_files("src/SFML/Window/" .. os .. "/*.cpp")
                     add_files("src/SFML/Window/*.cpp")
                 end
 
-                if $(graphics) then
+                if get_config("graphics") then
                     add_files("src/SFML/Graphics/*.cpp")
                 end
         ]], arch)
@@ -111,6 +111,6 @@ package("sfml-nocmake")
         io.writefile("xmake.lua", xmake_lua);
 
         import("package.tools.xmake").install(package, package:configs())
-        
+
         os.cp("include/SFML", package:installdir("include"))
     end)
