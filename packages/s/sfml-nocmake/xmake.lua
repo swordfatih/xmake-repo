@@ -18,34 +18,37 @@ package("sfml-nocmake")
     add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
     add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
 
-    -- Dependencies
-    if is_host("linux") then
-        if get_config("graphics") then
-            add_deps("freetype")
+    -- Load
+    on_install(function (package)
+        -- Dependencies
+        if is_host("linux") then
+            if package:get_config("graphics") then
+                add_deps("freetype")
+            end
+
+            if package:get_config("window") or package:get_config("graphics") then
+                add_deps("libx11", "libxrandr")
+            end 
+
+            if package:get_config("audio") then
+                add_deps("libogg", "libflac", "libvorbis", "openal-soft")
+            end
+
+            if package:get_config("network") then
+                add_syslinks("eudev")
+            end
+        elseif is_host("windows") then
+            if package:get_config("window") or package:get_config("graphics") then
+                add_syslinks("opengl32", "gdi32", "user32", "advapi32")
+            end 
+
+            if package:get_config("network") then
+                add_syslinks("ws2_32")
+            end
+
+            add_syslinks("winmm")
         end
-
-        if get_config("window") or get_config("graphics") then
-            add_deps("libx11", "libxrandr")
-        end 
-
-        if get_config("audio") then
-            add_deps("libogg", "libflac", "libvorbis", "openal-soft")
-        end
-
-        if get_config("network") then
-            add_syslinks("eudev")
-        end
-    elseif is_host("windows") then
-        if get_config("window") or get_config("graphics") then
-            add_syslinks("opengl32", "gdi32", "user32", "advapi32")
-        end 
-
-        if get_config("network") then
-            add_syslinks("ws2_32")
-        end
-
-        add_syslinks("winmm")
-    end
+    end)
 
     -- Install
     on_install(function (package)
