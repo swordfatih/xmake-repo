@@ -43,25 +43,25 @@ package("sfml-nocmake")
                 package:add("deps", "eudev")
             end
         elseif is_host("windows") then
-            if package:config("window") or package:config("graphics") then
-                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
+            if package:config("graphics") then
+                package:add("syslinks", "opengl32")
+                package:add("links", "freetype")
+            end
+
+            if package:config("window") or  then
+                package:add("syslinks", "opengl32", "winmm", "gdi32", "user32", "advapi32")
             end 
+
+            if package:config("audio") then 
+                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                package:add("linkdirs", "extlibs/bin/" .. arch)
+            end
 
             if package:config("network") then
                 package:add("syslinks", "ws2_32")
             end
 
             package:add("syslinks", "winmm")
-        end
-
-        -- Link libraries
-        if has_config("graphics") then
-            add_links("freetype")
-        end
-        
-        if has_config("audio") then 
-            add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-            add_linkdirs("extlibs/bin/" .. arch)
         end
     end)
 
@@ -189,6 +189,4 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
-        os.cp("extlibs/headers", package:installdir("extlibs"))
-        package:add("includedirs", "include", "extlibs/headers", "extlibs/headers/AL", "extlibs/headers/freetype2", "extlibs/headers/glad/include", "extlibs/headers/mingw", "extlibs/headers/minimp3", "extlibs/headers/ogg", "extlibs/headers/stb_image", "extlibs/headers/vorbis", "extlibs/headers/vulkan")
     end)
