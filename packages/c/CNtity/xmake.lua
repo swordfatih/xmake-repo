@@ -9,4 +9,3 @@ package("cntity")
     on_install(function (package)
         os.cp("cntity", package:installdir("include"))
     end)
-
