@@ -18,11 +18,11 @@ package("sfml-nocmake")
     add_defines("SFML_STATIC")
 
     -- Configs
-    add_configs("graphics",   {description = "Use the graphics module", default = true, type = "boolean"})
-    add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
-    add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
-    add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
-    add_configs("msvc",    {description = "Use the MSVC external libs", default = false, type = "boolean"})
+    add_configs("graphics", {description = "Use the graphics module", default = true, type = "boolean"})
+    add_configs("window",   {description = "Use the window module", default = true, type = "boolean"})
+    add_configs("audio",    {description = "Use the audio module", default = true, type = "boolean"})
+    add_configs("network",  {description = "Use the network module", default = true, type = "boolean"})
+    add_configs("msvc",     {description = "Use the MSVC external libs", default = false, type = "boolean"})
 
     -- Load
     on_load(function (package)
