@@ -20,7 +20,7 @@ package("cngui")
             target("cngui")
                 -- Meta
                 set_languages("c++17")
-                set_kind("shared")
+                set_kind("static")
 
                 add_packages("sfml-nocmake") 
 
