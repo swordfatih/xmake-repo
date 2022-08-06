@@ -22,6 +22,7 @@ package("sfml-nocmake")
     add_configs("window",     {description = "Use the window module", default = true, type = "boolean"})
     add_configs("audio",      {description = "Use the audio module", default = true, type = "boolean"})
     add_configs("network",    {description = "Use the network module", default = true, type = "boolean"})
+    add_configs("msvc",    {description = "Use the MSVC external libs", default = false, type = "boolean"})
 
     -- Load
     on_load(function (package)
@@ -106,12 +107,12 @@ package("sfml-nocmake")
                     add_linkdirs("extlibs/bin/" .. arch)
                 end
             
-                local toolchain = "mingw"
-                if is_toolchain("vs") then
-                    toolchain = "msvc-universal"
+                local plat = "mingw"
+                if has_config("msvc") then
+                    plat = "msvc-universal"
                 end
             
-                add_linkdirs("extlibs/libs-" .. toolchain .. "/" .. arch)
+                add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
             
                 -- Dependencies
                 if is_host("linux") then
@@ -179,16 +180,16 @@ package("sfml-nocmake")
 
         -- Build SFML
         io.writefile("xmake.lua", xmake_lua);
-        import("package.tools.xmake").install(package, { arch=arch, graphics=package:config("graphics"), window=package:config("window"), network=package:config("network"), audio=package:config("audio")})
+        import("package.tools.xmake").install(package, { arch=arch, graphics=package:config("graphics"), window=package:config("window"), network=package:config("network"), audio=package:config("audio"), msvc=package:config("msvc")})
 
         -- Copy SFML include directory
         os.cp("include/SFML", package:installdir("include"))
 
         -- Copy external libraries
-        local toolchain = "mingw"
-        if is_toolchain("vs") then
-            toolchain = "msvc-universal"
+        local plat = "mingw"
+        if package:config("msvc") then
+            plat = "msvc-universal"
         end
 
-        os.cp("extlibs/libs-" .. toolchain .. "/" .. arch .. "/*", package:installdir("lib"))
+        os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
     end)
