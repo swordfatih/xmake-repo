@@ -22,7 +22,7 @@ package("thor")
             add_requires("aurora master") 
 
             target("thor")
-                set_kind("static")
+                set_kind("shared")
                 add_packages("sfml-nocmake", "aurora") 
 
                 add_includedirs("include")
