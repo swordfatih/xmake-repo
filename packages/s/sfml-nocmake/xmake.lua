@@ -106,12 +106,12 @@ package("sfml-nocmake")
                     add_linkdirs("extlibs/bin/" .. arch)
                 end
             
-                local plat = "mingw"
-                if is_plat("windows") then
-                    plat = "msvc-universal"
+                local toolchain = "mingw"
+                if is_toolchain("vs") then
+                    toolchain = "msvc-universal"
                 end
             
-                add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
+                add_linkdirs("extlibs/libs-" .. toolchain .. "/" .. arch)
             
                 -- Dependencies
                 if is_host("linux") then
@@ -185,10 +185,10 @@ package("sfml-nocmake")
         os.cp("include/SFML", package:installdir("include"))
 
         -- Copy external libraries
-        local plat = "mingw"
-        if is_plat("windows") then
-            plat = "msvc-universal"
+        local toolchain = "mingw"
+        if is_toolchain("vs") then
+            toolchain = "msvc-universal"
         end
 
-        os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
+        os.cp("extlibs/libs-" .. toolchain .. "/" .. arch .. "/*", package:installdir("lib"))
     end)
