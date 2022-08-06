@@ -66,6 +66,8 @@ package("sfml-nocmake")
 
             package:add("syslinks", "winmm")
         end
+
+        package:add_linkdirs(package:installdir("lib"))
     end)
 
     -- Install
