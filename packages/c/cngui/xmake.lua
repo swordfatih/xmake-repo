@@ -18,12 +18,14 @@ package("cngui")
             add_requires("sfml-nocmake 2.6.0", { configs = { audio = false, network = false } }) 
 
             target("cngui")
+                -- Meta
+                set_languages("c++17")
+                set_kind("static")
+
                 add_packages("sfml-nocmake") 
 
                 add_includedirs("include")
                 add_files("src/CNGui/**.cpp")
-
-                add_files("src/main.cpp")
         ]]
 
         -- Build CNGui
