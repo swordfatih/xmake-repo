@@ -75,6 +75,7 @@ package("sfml-nocmake")
             option("window", {default = true, showmenu = true})
             option("audio", {default = true, showmenu = true})
             option("network", {default = true, showmenu = true})
+            option("msvc", {default = false, showmenu = true})
 
             -- Architecture
             local arch = "x64"
