@@ -32,4 +32,5 @@ package("thor")
 
         -- Copy Thor include directory
         os.cp("include/Thor", package:installdir("include"))
+        os.cp("extlibs/aurora/include/Aurora", package:installdir("include"))
     end)
