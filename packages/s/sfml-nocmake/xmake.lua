@@ -109,7 +109,9 @@ package("sfml-nocmake")
                 end
             
                 local plat = "mingw"
-
+                if has_config("msvc") then
+                    plat = "msvc-universal"
+                end
             
                 add_linkdirs("extlibs/libs-" .. plat .. "/" .. arch)
             
