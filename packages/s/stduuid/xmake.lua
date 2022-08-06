@@ -1,5 +1,7 @@
 package("stduuid")
     set_kind("library", {headeronly = true})
+    set_languages("c++20")
+    
     set_homepage("https://github.com/mariusbancila/stduuid")
     set_description("A C++17 cross-platform implementation for UUIDs")
 
