@@ -18,7 +18,7 @@ package("thor")
     on_install(function (package)
         local xmake_lua = [[
             add_repositories("xrepo_fatih https://github.com/swordfatih/xmake-repo.git main")
-            add_requires("sfml-nocmake 2.6.0", { configs = { audio = false, network = false } }) 
+            add_requires("sfml-nocmake 2.6.0", { configs = { network = false } }) 
             add_requires("aurora master") 
 
             target("thor")
