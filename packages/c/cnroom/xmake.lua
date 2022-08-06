@@ -7,5 +7,5 @@ package("cnroom")
     add_versions("master", "ebf42a52eba3ca7719eef0f8480dac498f3ffc96")
 
     on_install(function (package)
-        os.cp("include", package:installdir("include"))
+        os.cp("include/CNRoom", package:installdir("include"))
     end)

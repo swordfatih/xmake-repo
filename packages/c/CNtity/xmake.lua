@@ -7,5 +7,5 @@ package("cntity")
     add_versions("master", "dc52e9680b68b12e003c36842b12c6aadde99eac")
 
     on_install(function (package)
-        os.cp("include", package:installdir("include"))
+        os.cp("include/CNtity", package:installdir("include"))
     end)
