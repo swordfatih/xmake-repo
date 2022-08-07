@@ -29,6 +29,8 @@ package("sfml-nocmake")
         -- Linking
         package:add("links", "sfml")
 
+        print("linking libs")
+
         -- Dependencies
         if is_host("linux") then
             if package:config("graphics") then
