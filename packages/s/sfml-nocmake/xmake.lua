@@ -26,6 +26,8 @@ package("sfml-nocmake")
 
     -- Load
     on_load(function (package)
+        package:add("linkdirs", package:installdir("lib"))
+        
         -- Linking
         package:add("links", "sfml")
 
@@ -193,5 +195,4 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
-        package:add("linkdirs", package:installdir("lib"))
     end)
