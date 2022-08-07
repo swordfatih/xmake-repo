@@ -4,6 +4,7 @@ package("cngui")
     set_description("GUI Library using SFML and C++")
 
     add_urls("https://github.com/swordfatih/CNGui.git")
+    add_deps("sfml-nocmake 2.6.0")
   
     -- Load
     on_load(function (package)
@@ -15,7 +16,7 @@ package("cngui")
     on_install(function (package)
         local xmake_lua = [[
             add_repositories("xrepo_fatih https://github.com/swordfatih/xmake-repo.git main")
-            add_requires("sfml-nocmake 2.6.0", { configs = { audio = false, network = false } }) 
+            add_requires("sfml-nocmake 2.6.0") 
 
             target("cngui")
                 -- Meta
