@@ -17,6 +17,9 @@ package("sfml-nocmake")
     -- Defines
     add_defines("SFML_STATIC")
 
+    -- Linking
+    add_links("sfml")
+
     -- Configs
     add_configs("graphics", {description = "Use the graphics module", default = true, type = "boolean"})
     add_configs("window",   {description = "Use the window module", default = true, type = "boolean"})
@@ -26,9 +29,6 @@ package("sfml-nocmake")
 
     -- Load
     on_load(function (package)
-        -- Linking
-        package:add("links", "sfml")
-
         -- Dependencies
         if is_host("linux") then
             if package:config("graphics") then
