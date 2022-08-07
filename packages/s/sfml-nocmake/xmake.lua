@@ -57,7 +57,6 @@ package("sfml-nocmake")
 
             if package:config("audio") then 
                 package:add("syslinks", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                package:add("linkdirs", "extlibs/bin/" .. arch)
             end
 
             if package:config("network") then
@@ -193,4 +192,5 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
+        os.cp("extlibs/bin/" .. arch .. "/*", package:installdir("lib"))
     end)
