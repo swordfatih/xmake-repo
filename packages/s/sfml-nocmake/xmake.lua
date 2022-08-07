@@ -26,8 +26,6 @@ package("sfml-nocmake")
 
     -- Load
     on_load(function (package)
-        package:add("linkdirs", package:installdir("lib"))
-        
         -- Linking
         package:add("links", "sfml")
 
