@@ -17,6 +17,9 @@ package("sfml-nocmake")
     -- Defines
     add_defines("SFML_STATIC")
 
+    -- Linking
+    add_links("sfml")
+
     -- Configs
     add_configs("graphics", {description = "Use the graphics module", default = true, type = "boolean"})
     add_configs("window",   {description = "Use the window module", default = true, type = "boolean"})
@@ -26,9 +29,6 @@ package("sfml-nocmake")
 
     -- Load
     on_load(function (package)
-        -- Linking
-        package:add("deps", "sfml")
-
         -- Dependencies
         if is_host("linux") then
             if package:config("graphics") then
@@ -48,7 +48,7 @@ package("sfml-nocmake")
             end
         elseif is_host("windows") then
             if package:config("graphics") then
-                package:add("deps", "freetype")
+                package:add("links", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
@@ -56,7 +56,7 @@ package("sfml-nocmake")
             end 
 
             if package:config("audio") then 
-                package:add("deps", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
                 package:add("linkdirs", "extlibs/bin/" .. arch)
             end
 
