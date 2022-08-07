@@ -27,7 +27,7 @@ package("sfml-nocmake")
     -- Load
     on_load(function (package)
         -- Linking
-        package:add("links", "sfml")
+        package:add("deps", "sfml")
 
         -- Dependencies
         if is_host("linux") then
@@ -48,7 +48,7 @@ package("sfml-nocmake")
             end
         elseif is_host("windows") then
             if package:config("graphics") then
-                package:add("links", "freetype")
+                package:add("deps", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
@@ -56,7 +56,7 @@ package("sfml-nocmake")
             end 
 
             if package:config("audio") then 
-                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                package:add("deps", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
                 package:add("linkdirs", "extlibs/bin/" .. arch)
             end
 
