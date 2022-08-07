@@ -24,6 +24,50 @@ package("sfml-nocmake")
     add_configs("network",  {description = "Use the network module", default = true, type = "boolean"})
     add_configs("msvc",     {description = "Use the MSVC external libs", default = false, type = "boolean"})
 
+    -- Load
+    on_load(function (package)
+        -- Linking
+        package:add("links", "sfml")
+
+        -- Dependencies
+        if is_host("linux") then
+            if package:config("graphics") then
+                package:add("deps", "freetype")
+            end
+
+            if package:config("window") or package:config("graphics") then
+                package:add("deps", "libxrandr")
+            end 
+
+            if package:config("audio") then
+                package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
+            end
+
+            if package:config("network") then
+                package:add("deps", "eudev")
+            end
+        elseif is_host("windows") then
+            if package:config("graphics") then
+                package:add("links", "freetype")
+            end
+
+            if package:config("window") or package:config("graphics") then
+                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
+            end 
+
+            if package:config("audio") then 
+                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                package:add("linkdirs", "extlibs/bin/" .. arch)
+            end
+
+            if package:config("network") then
+                package:add("syslinks", "ws2_32")
+            end
+
+            package:add("syslinks", "winmm")
+        end
+    end)
+
     -- Install
     on_install(function (package)
         local xmake_lua = [[
@@ -149,46 +193,4 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
-
-        -- Linking
-        package:add("linkdirs", package:installdir("lib"))
-        package:add("links", "sfml")
-
-        -- Dependencies
-        if is_host("linux") then
-            if package:config("graphics") then
-                package:add("deps", "freetype")
-            end
-
-            if package:config("window") or package:config("graphics") then
-                package:add("deps", "libxrandr")
-            end 
-
-            if package:config("audio") then
-                package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
-            end
-
-            if package:config("network") then
-                package:add("deps", "eudev")
-            end
-        elseif is_host("windows") then
-            if package:config("graphics") then
-                package:add("links", "freetype")
-            end
-
-            if package:config("window") or package:config("graphics") then
-                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
-            end 
-
-            if package:config("audio") then 
-                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                package:add("linkdirs", "extlibs/bin/" .. arch)
-            end
-
-            if package:config("network") then
-                package:add("syslinks", "ws2_32")
-            end
-
-            package:add("syslinks", "winmm")
-        end
     end)
