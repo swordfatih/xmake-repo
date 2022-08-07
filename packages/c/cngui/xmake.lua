@@ -6,11 +6,8 @@ package("cngui")
     add_urls("https://github.com/swordfatih/CNGui.git")
     add_deps("sfml-nocmake 2.6.0")
   
-    -- Load
-    on_load(function (package)
-        -- Linking
-        package:add("links", "cngui")
-    end)
+    -- Linking
+    add_links("cngui")
 
     -- Install
     on_install(function (package)
