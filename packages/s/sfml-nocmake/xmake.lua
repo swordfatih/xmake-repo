@@ -24,49 +24,46 @@ package("sfml-nocmake")
     add_configs("network",  {description = "Use the network module", default = true, type = "boolean"})
     add_configs("msvc",     {description = "Use the MSVC external libs", default = false, type = "boolean"})
 
-    -- Load
-    on_load(function (package)
-        -- Linking
-        package:add("links", "sfml")
+    -- Linking
+    add_links("sfml")
 
-        -- Dependencies
-        if is_host("linux") then
-            if package:config("graphics") then
-                package:add("deps", "freetype")
-            end
-
-            if package:config("window") or package:config("graphics") then
-                package:add("deps", "libxrandr")
-            end 
-
-            if package:config("audio") then
-                package:add("deps", "libogg", "libflac", "libvorbis", "openal-soft")
-            end
-
-            if package:config("network") then
-                package:add("deps", "eudev")
-            end
-        elseif is_host("windows") then
-            if package:config("graphics") then
-                package:add("links", "freetype")
-            end
-
-            if package:config("window") or package:config("graphics") then
-                package:add("syslinks", "opengl32", "gdi32", "user32", "advapi32")
-            end 
-
-            if package:config("audio") then 
-                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
-                package:add("linkdirs", "extlibs/bin/" .. arch)
-            end
-
-            if package:config("network") then
-                package:add("syslinks", "ws2_32")
-            end
-
-            package:add("syslinks", "winmm")
+    -- Dependencies
+    if is_host("linux") then
+        if has_config("graphics") then
+            add_deps("freetype")
         end
-    end)
+
+        if has_config("window") or has_config("graphics") then
+            add_deps("libxrandr")
+        end 
+
+        if has_config("audio") then
+            add_deps("libogg", "libflac", "libvorbis", "openal-soft")
+        end
+
+        if has_config("network") then
+            add_deps("eudev")
+        end
+    elseif is_host("windows") then
+        if has_config("graphics") then
+            add_links("freetype")
+        end
+
+        if has_config("window") or has_config("graphics") then
+            add_syslinks("opengl32", "gdi32", "user32", "advapi32")
+        end 
+
+        if has_config("audio") then 
+            add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+            add_linkdirs("extlibs/bin/" .. arch)
+        end
+
+        if has_config("network") then
+            add_syslinks("ws2_32")
+        end
+
+        add_syslinks("winmm")
+    end
 
     -- Install
     on_install(function (package)
