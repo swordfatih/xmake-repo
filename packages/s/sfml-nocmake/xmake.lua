@@ -19,7 +19,7 @@ package("sfml-nocmake")
 
     -- Linking
     add_links("sfml")
-    add_linkdirs("./lib")
+    add_links("freetype")
 
     -- Configs
     add_configs("graphics", {description = "Use the graphics module", default = true, type = "boolean"})
