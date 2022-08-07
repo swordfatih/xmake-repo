@@ -32,23 +32,23 @@ package("sfml-nocmake")
         -- Dependencies
         if is_host("linux") then
             if package:config("graphics") then
-                package:add("links", "freetype")
+                package:add("syslinks", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
-                package:add("links", "libxrandr")
+                package:add("syslinks", "libxrandr")
             end 
 
             if package:config("audio") then
-                package:add("links", "libogg", "libflac", "libvorbis", "openal-soft")
+                package:add("syslinks", "libogg", "libflac", "libvorbis", "openal-soft")
             end
 
             if package:config("network") then
-                package:add("links", "eudev")
+                package:add("syslinks", "eudev")
             end
         elseif is_host("windows") then
             if package:config("graphics") then
-                package:add("links", "freetype")
+                package:add("syslinks", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
@@ -56,7 +56,7 @@ package("sfml-nocmake")
             end 
 
             if package:config("audio") then 
-                package:add("links", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
+                package:add("syslinks", "openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
                 package:add("linkdirs", "extlibs/bin/" .. arch)
             end
 
