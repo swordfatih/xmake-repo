@@ -193,4 +193,5 @@ package("sfml-nocmake")
         end
 
         os.cp("extlibs/libs-" .. plat .. "/" .. arch .. "/*", package:installdir("lib"))
+        package:add("linkdirs", package:installdir("lib"))
     end)
