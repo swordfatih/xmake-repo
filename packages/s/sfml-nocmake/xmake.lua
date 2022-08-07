@@ -29,36 +29,36 @@ package("sfml-nocmake")
 
     -- Dependencies
     if is_host("linux") then
-        if has_config("graphics") then
+        if config("graphics") then
             add_deps("freetype")
         end
 
-        if has_config("window") or has_config("graphics") then
+        if config("window") or config("graphics") then
             add_deps("libxrandr")
         end 
 
-        if has_config("audio") then
+        if config("audio") then
             add_deps("libogg", "libflac", "libvorbis", "openal-soft")
         end
 
-        if has_config("network") then
+        if config("network") then
             add_deps("eudev")
         end
     elseif is_host("windows") then
-        if has_config("graphics") then
+        if config("graphics") then
             add_links("freetype")
         end
 
-        if has_config("window") or has_config("graphics") then
+        if config("window") or config("graphics") then
             add_syslinks("opengl32", "gdi32", "user32", "advapi32")
         end 
 
-        if has_config("audio") then 
+        if config("audio") then 
             add_links("openal32", "FLAC", "vorbisenc", "vorbisfile", "vorbis", "ogg")
             add_linkdirs("extlibs/bin/" .. arch)
         end
 
-        if has_config("network") then
+        if config("network") then
             add_syslinks("ws2_32")
         end
 
