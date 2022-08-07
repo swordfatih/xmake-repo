@@ -19,6 +19,7 @@ package("sfml-nocmake")
 
     -- Linking
     add_links("sfml")
+    add_linkdirs(installdir .. "/lib")
 
     -- Configs
     add_configs("graphics", {description = "Use the graphics module", default = true, type = "boolean"})
@@ -48,7 +49,7 @@ package("sfml-nocmake")
             end
         elseif is_host("windows") then
             if package:config("graphics") then
-                package:add("links", "freetype.a")
+                package:add("links", "freetype")
             end
 
             if package:config("window") or package:config("graphics") then
