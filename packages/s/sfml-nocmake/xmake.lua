@@ -11,8 +11,8 @@ package("sfml-nocmake")
     add_urls("https://github.com/SFML/SFML.git")
     
     -- Versions
-    add_versions("master", "3ae833cb8f439177208ad9bd8dbcb6b7a4bd3f3e384d5854e4674debe3b30ae2f6cf9d9926738789")
-    add_versions("2.6.0", "33cb8f439177208ad9bd8dbcb6b7a4bd3f3e384d")
+    add_versions("master", "a8e901e754472539d9ce1257ae1758e7e96a31b8")
+    add_versions("2.6.0", "11b73743c42cf7ecd7c596ba83fdbf1150ffa96c")
 
     -- Defines
     add_defines("SFML_STATIC")
