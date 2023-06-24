@@ -7,6 +7,6 @@ package("taojson")
     add_versions("main", "330129305f15fbfba5e0716db25e245f0b4d8b0f")
 
     on_install(function (package)
-        os.cp("include/taojson", package:installdir("include"))
+        os.cp("include/tao", package:installdir("include"))
     end)
 
