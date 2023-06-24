@@ -5,7 +5,7 @@ package("pegtl-nocmake")
     set_license("BSL-1.0")
 
     add_urls("https://github.com/taocpp/PEGTL.git")
-    add_versions("3.2.5", "eac50a85e3fd1ee3623cfa150eed457aa61f7b9e")
+    add_versions("3.2.7", "cf639f7f4ee125f68e1ccfba8d99ebc0de57b9fe")
 
     on_install(function (package)
         os.cp("include/tao", package:installdir("include"))
