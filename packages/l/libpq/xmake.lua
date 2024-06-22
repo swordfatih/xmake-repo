@@ -4,12 +4,8 @@ package("libpq")
     set_description("Postgres C API library")
     set_license("PostgreSQL")
 
-    add_urls("https://github.com/postgres/postgres/archive/refs/tags/REL_$(version).tar.gz", {alias = "github", version = function (version)
-        return version:gsub("%.", "_")
-    end})
-    
-    add_versions("16.3", "dcb3fac1ed875e75bd939aa9636264977e56f35b4429418450309bc646409aff")
-    add_versions("14.1", "14809c9f669851ab89b344a50219e85b77f3e93d9df9e255b9781d8d60fcfbc9")
+    add_urls("https://github.com/postgres/postgres.git")
+    add_versions("main", "258cef12540fa1cb244881a0f019cefd698c809e")
 
     -- Linking
     add_links("libpq")
