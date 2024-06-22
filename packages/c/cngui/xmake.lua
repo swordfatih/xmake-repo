@@ -27,7 +27,7 @@ package("cngui")
         ]]
 
         -- Build CNGui
-        io.writefile("xmake.lua", xmake_lua);
+        io.writefile("xmake.lua", xmake_lua)
         import("package.tools.xmake").install(package)
 
         -- Copy CNGui include directory
