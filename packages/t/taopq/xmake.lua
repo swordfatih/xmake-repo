@@ -9,7 +9,7 @@ package("taopq")
     add_versions("1.0.0", "21df9f398c5fa3f64aab76cbf316d33ce5eb2c92")
 
     -- Dependencies
-    add_deps("cmake")
+    add_deps("cmake", "libpq")
 
     -- Load
     on_install(function (package)
