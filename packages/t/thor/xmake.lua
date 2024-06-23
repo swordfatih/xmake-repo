@@ -4,7 +4,7 @@ package("thor")
     set_description("SFML Extension with various game programming features, like particles, animations, vector operations")
 
     add_urls("https://github.com/swordfatih/Thor.git")
-    add_deps("sfml-nocmake 2.6.0")
+    add_deps("sfml-nocmake 2.6.1")
 
     add_versions("fork", "458d213151f2b305820e98c6b3e96be67d4ae953")
     add_versions("2.1", "3e320cb52606f0b44fd9d2bb272b3cb6d01d7f20")
@@ -17,7 +17,7 @@ package("thor")
     on_install(function (package)
         local xmake_lua = [[
             add_repositories("xrepo_fatih https://github.com/swordfatih/xmake-repo.git main")
-            add_requires("sfml-nocmake 2.6.0") 
+            add_requires("sfml-nocmake 2.6.1") 
             add_requires("aurora master") 
 
             target("thor")
